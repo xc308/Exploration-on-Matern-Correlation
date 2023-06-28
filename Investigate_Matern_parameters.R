@@ -122,7 +122,7 @@ persp3D(x = x_vals, y = y_vals, z = z_mat)
 x_vals <- seq(-10, 10, length.out = 100)
 y_vals <- seq(-10, 10, length.out = 100)
 grids <- expand.grid(x = x_vals, y = y_vals)
-
+d <- sqrt(grids$x^2 + grids$y^2)
 
 
 plt_3D_Matern <- function(nu, Kappa) {
