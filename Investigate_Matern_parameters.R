@@ -2,14 +2,13 @@
 # Investigate the parameter effects of Matern
 #=============================================
 
+# 3D visualize effects of changing parameters of Matern function
+
 install.packages("ggplot2")
 library(ggplot2)
 
 install.packages("patchwork")
 library(patchwork) # for side by side plots
-
-install.packages("rgl")
-library(rgl)
 
 install.packages("plot3D")
 library(plot3D)
@@ -157,7 +156,7 @@ for (nu in c(0.5, 1.5, 2.5)) {
 #------------
 
 # for a given Kappa, the larger the nu, 
-  # the more accurate of the z values
+  # the more accurate the z values
   # from 0.9 to 0.9998
 
 # for a given nu, the larger the Kappa
@@ -169,7 +168,6 @@ for (nu in c(0.5, 1.5, 2.5)) {
       # as the increase of distance btw pairs of points
 
 
-# 
 
 
 
