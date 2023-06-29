@@ -12,7 +12,8 @@ x <- seq(0.5, 10, length.out = 100)
 plt_besselK <- function(x, nu) {
 
   b <- besselK(x, nu = nu)
-  plot(x, b, type = "l", main = paste0("nu: ", nu))
+  plot(x, b, type = "l", main = bquote(atop("Modified Bessel K_nu", 
+                                            "nu:"~ .(nu))))
 }
 
 
@@ -22,6 +23,9 @@ plt_besselK <- function(x, nu) {
 nu = 1.5
 b <- besselK(x, nu = nu)
 par(mfrow = c(1, 1), mar = c(3, 3, 3, 1))
+plt_besselK(x = x, nu = nu)
+
+
 plot(x, b, type = "l", main = paste0("nu: ", nu))
 
 
@@ -48,7 +52,7 @@ plot(x, b, type = "l", main = paste0("nu: ", nu))
 N <- seq(0.5, 10, by = 0.5)
 length(N) # [1] 20
 
-par(mfrow = c(5, 4), mar = c(2, 1, 1, 1))
+par(mfrow = c(5, 4), mar = c(2, 1, 2.8, 1))
 
 for (nu in N) {
   plt_besselK(x, nu)
