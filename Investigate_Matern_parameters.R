@@ -142,10 +142,10 @@ plt_3D_Matern <- function(nu, Kappa) {
   
 }
 
-par(mar = c(2, 1, 2, 2), mfrow = c(3, 4))
+par(mar = c(2, 1, 2, 2), mfrow = c(4, 5))
 
-for (nu in c(0.5, 1.5, 2.5)) {
-  for (Kappa in c(0.5, 5, 20, 75)) {
+for (nu in c(0.1, 0.5, 1.5, 2.5)) {
+  for (Kappa in c(0.1, 0.5, 5, 20, 75)) {
     plt_3D_Matern(nu = nu, Kappa = Kappa)
   }
 }
