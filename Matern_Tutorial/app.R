@@ -19,13 +19,13 @@ ui <- fluidPage(
                   sidebarPanel(
                     sliderInput("nu",
                         "Small-scale smoothing parameter nu:",
-                        min = 0,
-                        max = 10, 
+                        min = 0.1,
+                        max = 50, 
                         value = 1.5), 
-                    sliderInput(inputId = "kappa",
-                                label = "Large-scale range parameter kappa:",
-                                min = 0,
-                                max = 50, 
+                    sliderInput(inputId = "rho",
+                                label = "Large-scale range parameter rho:",
+                                min = 0.1,
+                                max = 100, 
                                 value = 1)),
                   
 
@@ -33,12 +33,14 @@ ui <- fluidPage(
                 mainPanel(
                   
                   h3("nu: small-scale smoothing parameter", align = "center"),
-                  h3("kappa: large-scale range parameter", align = "center"),
+                  h3("rho: large-scale range parameter", align = "center"),
                   
                   plotOutput("distPlot"),
                   
-                  h4("Hint1: set nu = 1, change kappa, see what happens?", align = "center"),
-                  h4("Hint2: set kappa = 1, change nu, see what happens?", align = "center")
+                  h4("Hint 1: set nu = 0.1, change rho, see what happens?", align = "center"),
+                  h4("Hint 2: set rho = 0.1, change nu, see what happens?", align = "center"),
+                  h4("Hint 3: set nu = rho = 0.1, see what happens?", align = "center"),
+                  h4("Hint 4: set nu = 50, rho = 100, see what happens?", align = "center")
                   
         )
     )
@@ -50,11 +52,11 @@ server <- function(input, output) {
     output$distPlot <- renderPlot({
       
       # Matern function
-      Fn_Matern <- function(d, sigma2, nu, Kappa) {
+      Fn_Matern <- function(d, sigma2, nu, rho) {
         
         #if(any(d) < 0) {stop("distance d must be non-negative!")}
         
-        D <- d / Kappa
+        D <- d / rho
         # avoid sending exact zero to BasselK(.)
         D[D == 0] <- 1e-10
         
@@ -75,7 +77,7 @@ server <- function(input, output) {
       d <- sqrt(grids$x^2 + grids$y^2)
       
       # Calculate z at each grid
-      grids$z <- Fn_Matern(d = d, sigma2 = 1, nu = input$nu, Kappa = input$kappa)
+      grids$z <- Fn_Matern(d = d, sigma2 = 1, nu = input$nu, rho = input$rho)
       
       # Create matrix of x, y, z for plot3D
       x_mat <- matrix(grids$x, nrow = length(x_vals), ncol = length(y_vals))
@@ -86,7 +88,7 @@ server <- function(input, output) {
       # 3D surface plot
       require(plot3D)
       persp3D(x = x_vals, y = y_vals, z = z_mat,
-              main = paste0("nu = ", input$nu, ", kappa = ", input$kappa))
+              main = paste0("nu = ", input$nu, ", rho = ", input$rho))
     })
     
 }
