@@ -30,14 +30,13 @@ length(nu) # 100
 
 Const_vec <- 2^{(1 - Nu)} / gamma(Nu)
 
-par(mfrow = c(1, 1), mar = c(3, 5, 3, 1))
+par(mfrow = c(1, 1), mar = c(5, 5, 3, 1))
 plot(Nu, Const_vec, type = "l", 
-     xlab = expression(nu),
+     xlab = "nu",
      ylab = "Constant values",
      main = "Constant part v.s. nu")
 
 abline(h = 0, lty = 2)
-
 
 
 
