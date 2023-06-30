@@ -12,8 +12,9 @@ x <- seq(0.5, 10, length.out = 100)
 plt_besselK <- function(x, nu) {
 
   b <- besselK(x, nu = nu)
-  plot(x, b, type = "l", main = bquote(atop("Modified Bessel K_nu", 
-                                            "nu:"~ .(nu))))
+  plot(x, b, type = "l", xlab = "distance",
+       main = bquote(atop("Modified Bessel K_nu", 
+                          atop("nu:"~ .(nu), "rho: "~ 1))))
 }
 
 
@@ -22,11 +23,8 @@ plt_besselK <- function(x, nu) {
 #----
 nu = 1.5
 b <- besselK(x, nu = nu)
-par(mfrow = c(1, 1), mar = c(3, 3, 3, 1))
+par(mfrow = c(1, 1), mar = c(5, 3, 4, 1))
 plt_besselK(x = x, nu = nu)
-
-
-plot(x, b, type = "l", main = paste0("nu: ", nu))
 
 
 #--------------
@@ -49,13 +47,32 @@ plot(x, b, type = "l", main = paste0("nu: ", nu))
 #-------------
 # different nu 
 #-------------
-N <- seq(0.5, 10, by = 0.5)
-length(N) # [1] 20
+#N <- seq(0.5, 10, by = 1)
+length(N) # [1] 10
 
-par(mfrow = c(5, 4), mar = c(2, 1, 2.8, 1))
+par(mfrow = c(3, 3), mar = c(4, 3, 3, 1), mgp = c(1.75, 1, 0))
+
+plt_besselK_2 <- function(x, nu) {
+  
+  b <- besselK(x, nu = nu)
+  plot(x, b, type = "l", xlab = "distance",
+       ylab = "Bessel K",
+       main = bquote(atop("Modified Bessel K_nu", 
+                          atop("nu:"~ .(nu)))))
+}
 
 for (nu in N) {
-  plt_besselK(x, nu)
+  plt_besselK_2(x, nu)
+}
+
+
+# try N with more constrast but less choices
+N <- c(0.1, 1.5, 15, 50)
+
+par(mfrow = c(2, 2), mar = c(3, 3, 3.5, 1), mgp = c(1.95, 1, 0))
+
+for (nu in N) {
+  plt_besselK_2(x, nu)
 }
 
 
