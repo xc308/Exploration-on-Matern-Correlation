@@ -19,20 +19,24 @@ library(plot3D)
 #-----------------
 
 # con = 2^(nu - 1) * gamma(nu)
-# M(s, u) = sigma2 * (1/con) * (kappa * abs(u - s))^nu * besselK_nu(kappa * abs(u-s)) 
+# M(s, u) = sigma2 * (1/con) * (abs(u - s) / rho)^nu * besselK_nu(abs(u-s) / rho) 
 
 # Args:
     # d: distance between pair of points, must be non-neg
     # sigma2: univariate (marginal) variance
     # nu: smooth parameter, small scale
-    # Kappa: range parameter, large scale
+    # rho: range parameter, larger scale
+    # Kappa: spatial decay parameter, 1/range parameter
 
 
-Fn_Matern <- function(d, sigma2, nu, Kappa) {
+Fn_Matern <- function(d, sigma2, nu, rho) {
   
   #if(any(d) < 0) {stop("distance d must be non-negative!")}
   
-  D <- d / Kappa
+  # D <- d / Kappa
+  
+  # kappa = 1/range
+  D <- d /rho
   # avoid sending exact zero to BasselK(.)
   D[D == 0] <- 1e-10
   
@@ -48,7 +52,7 @@ Fn_Matern <- function(d, sigma2, nu, Kappa) {
 #------------------------
 sigma2 <- 1
 nu <- 1.5
-Kappa <- 2
+rho <- 2
 
 
 #---------------------------
@@ -66,7 +70,7 @@ grids <- expand.grid(x = x, y = y)
 
 d <- sqrt(grids$x^2 + grids$y^2)
 
-grids$z_vals <- Fn_Matern(d = d, sigma2 = sigma2, nu = nu, Kappa = Kappa)
+grids$z_vals <- Fn_Matern(d = d, sigma2 = sigma2, nu = nu, rho = rho)
 
 
 #--------------------
@@ -110,7 +114,14 @@ surf3D(x = x_mat, y = y_mat, z = z_mat,
        xlab = "X", ylab = "Y", zlab = "Z",
        theta = 60)
 
-par(mar = c(3, 1, 1, 2))
+
+#--------------
+# perspective 3D
+#--------------
+x_vals <- seq(-10, 10, length.out = 100)
+y_vals <- seq(-10, 10, length.out = 100)
+
+par(mfrow = c(1, 1), mar = c(3, 1, 1, 2))
 persp3D(x = x_vals, y = y_vals, z = z_mat)
 
 
@@ -124,9 +135,9 @@ grids <- expand.grid(x = x_vals, y = y_vals)
 d <- sqrt(grids$x^2 + grids$y^2)
 
 
-plt_3D_Matern <- function(nu, Kappa) {
+plt_3D_Matern <- function(nu, rho) {
   
-  grids$z <- Fn_Matern(d = d, sigma2 = sigma2, nu = nu, Kappa = Kappa)
+  grids$z <- Fn_Matern(d = d, sigma2 = sigma2, nu = nu, rho = rho)
   
   # Create matrix of x, y, z for surface3D
   x_mat <- matrix(grids$x, nrow = length(x_vals), ncol = length(y_vals))
@@ -136,17 +147,17 @@ plt_3D_Matern <- function(nu, Kappa) {
   
   # 3D surface plot
   persp3D(x = x_vals, y = y_vals, z = z_mat,
-          main = paste0("nu = ", nu, ", Kappa = ", Kappa), 
+          main = paste0("nu = ", nu, ", rho = ", rho), 
           cex = 0.3)
-  
-  
 }
 
-par(mar = c(2, 1, 2, 2), mfrow = c(4, 5))
+
+
+par(mar = c(1, 1, 1, 1), mfrow = c(4, 5))
 
 for (nu in c(0.1, 0.5, 1.5, 2.5)) {
-  for (Kappa in c(0.1, 0.5, 5, 20, 75)) {
-    plt_3D_Matern(nu = nu, Kappa = Kappa)
+  for (rho in c(0.1, 0.5, 5, 20, 75)) {
+    plt_3D_Matern(nu = nu, rho = rho)
   }
 }
 
@@ -155,16 +166,16 @@ for (nu in c(0.1, 0.5, 1.5, 2.5)) {
 # conclusions
 #------------
 
-# for a given Kappa, the larger the nu, 
+# for a given rho, the larger the nu, 
   # the more accurate the z values
   # from 0.9 to 0.9998
 
-# for a given nu, the larger the Kappa
+# for a given nu, the larger the rho
   # the slower the correlation between points decays
-  # when kappa = 0.5, the correlation drops to 0 instantly
+  # when rho = 0.5, the correlation drops to 0 instantly
       # as the increase of distance between two points
 
-  # when Kappa = 75, the correlation decreases very slowely
+  # when rho = 75, the correlation decreases very slowely
       # as the increase of distance btw pairs of points
 
 
