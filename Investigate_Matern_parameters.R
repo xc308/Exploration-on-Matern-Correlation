@@ -152,8 +152,10 @@ plt_3D_Matern <- function(nu, rho) {
 }
 
 
+png(paste0(image.path, "Matern_nu_rho_2.png"), 
+    width = 12, height = 7, units = "in", res = 300)
 
-par(mar = c(1, 1, 1, 2), mfrow = c(4, 5))
+par(mar = c(1, 1, 1, 3), mfrow = c(4, 5))
 
 for (nu in c(0.1, 0.5, 1.5, 2.5)) {
   for (rho in c(0.1, 0.5, 5, 20, 75)) {
@@ -161,6 +163,7 @@ for (nu in c(0.1, 0.5, 1.5, 2.5)) {
   }
 }
 
+dev.off()
 
 #------------
 # conclusions
