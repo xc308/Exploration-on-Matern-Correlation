@@ -8,6 +8,13 @@
     # (d / rho)^nu
     # K_v(d / rho) : done.
 
+#--------
+# Settings
+#--------
+image.path <- "./Image/"
+
+
+
 d <- seq(0, 10, length.out = 100)
 
 plot_Middle <- function(rho, nu) {
@@ -30,12 +37,15 @@ plot_Middle(rho = rho, nu = nu)
 #----------------------
 # different rho and nu
 #----------------------
+png(paste0(image.path, "Middel_part_different_rho_nu.png"),
+           width = 8, height = 7, units = "in", res = 300)
+
 Rho <- seq(0.5, 50, by = 10) # 0.5 10.5 20.5 30.5 40.5
 Nu <- c(0.5, 1.5, 10, 50) 
 length(Rho) # [1] 5
 length(Nu) # [1] 4
 
-par(mfrow = c(5, 4), mar = c(2.5, 1, 2, 1))
+par(mfrow = c(5, 4), mar = c(2.5, 2.5, 2, 1))
 
 for (rho in Rho) {
   for (nu in Nu) {
@@ -43,6 +53,9 @@ for (rho in Rho) {
     plot_Middle(rho = rho, nu = nu)
   }
 }
+
+dev.off()
+
 
 #-----------
 # Conclusions
@@ -66,9 +79,14 @@ for (rho in Rho) {
 # what nu value will change the middle part value from linear to expoential?
 #----------------------
 Rho <- seq(0.5, 50, by = 10) # 0.5 10.5 20.5 30.5 40.5
+
+
+png(paste0(image.path, "Mid_part_nu_vs_line.png"), 
+           width = 8, height = 7, units = "in", res = 300)
+
 Nu <- seq(0.5, 10, by = 0.5) 
 length(Rho) # [1] 5
-length(Nu) # [1] 19
+length(Nu) # [1] 20
 
 par(mfrow = c(5, 4), mar = c(2, 1, 2, 1))
 
@@ -79,6 +97,7 @@ for (nu in Nu) {
   
   }
 
+dev.off()
 
 #----------
 # Conclusion
@@ -91,6 +110,8 @@ for (nu in Nu) {
 #-----------------------------------------
 # Q: is c(0.5, 1.5) the ideal range for nu?
 #-----------------------------------------
+png(paste0(image.path, "nu_0.1-2_mse.png"), 
+    width = 8, height = 7, units = "in", res = 300)
 
 Nu <- seq(0.1, 2, by = 0.1) 
 length(Nu) # [1] 20
@@ -112,11 +133,12 @@ plot_Middle_mse <- function(rho, nu) {
 }
 
 
-par(mfrow = c(4, 5), mar = c(2.3, 1, 3.5, 1))
+par(mfrow = c(4, 5), mar = c(2.3, 1, 3.5, 1), cex = 0.8)
 for (nu in Nu) {
   plot_Middle_mse(rho = 10, nu = nu)
 }
 
+dev.off()
 
 #-----------
 # Conclusion
