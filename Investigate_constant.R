@@ -24,13 +24,15 @@ plt_Const(nu = 0.1)
 #-----------------
 # different nu's
 #-----------------
+png(paste0(image.path, "constant_vs_nu_2.png"), 
+    width = 8, height = 7, units = "in", res = 300)
 
 Nu = seq(0.1, 10, by = 0.1)
 length(nu) # 100
 
 Const_vec <- 2^{(1 - Nu)} / gamma(Nu)
 
-par(mfrow = c(1, 1), mar = c(5, 5, 3, 1))
+par(mfrow = c(1, 1), mar = c(5, 5, 3, 1), cex = 1.1)
 plot(Nu, Const_vec, type = "l", 
      xlab = "nu",
      ylab = "Constant values",
@@ -38,5 +40,5 @@ plot(Nu, Const_vec, type = "l",
 
 abline(h = 0, lty = 2)
 
-
+dev.off()
 
