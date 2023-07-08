@@ -6,8 +6,18 @@
     # x: numeric, >= 0 
     # nu: order of the Bessel, >=0 in practice, but can be negative in theory
 
+
+#----------
+# Settings
+#----------
 rm(list = ls())
 
+image.path <- "./Image/"
+
+
+#----------------
+# Bessel function
+#----------------
 x <- seq(0.5, 10, length.out = 100)
 plt_besselK <- function(x, nu) {
 
@@ -25,6 +35,24 @@ nu = 1.5
 b <- besselK(x, nu = nu)
 par(mfrow = c(1, 1), mar = c(5, 3, 4, 1))
 plt_besselK(x = x, nu = nu)
+abline(h = 0, lty = 2)
+
+
+#------
+# Save
+#------
+
+png(paste0(image.path, "Bessel_nu_1.5.png"), width = 8, height = 7, 
+    units = "in", res = 300)
+
+nu = 1.5
+b <- besselK(x, nu = nu)
+par(mfrow = c(1, 1), mar = c(5, 3, 4, 1), cex = 1.2)
+plt_besselK(x = x, nu = nu)
+abline(h = 0, lty = 2)
+
+dev.off()
+
 
 
 #--------------
@@ -50,7 +78,8 @@ plt_besselK(x = x, nu = nu)
 #N <- seq(0.5, 10, by = 1)
 length(N) # [1] 10
 
-par(mfrow = c(3, 3), mar = c(4, 3, 3, 1), mgp = c(1.75, 1, 0))
+par(mfrow = c(3, 3), mar = c(4, 3, 3, 1), mgp = c(1.75, 1, 0),
+    cex = 2)
 
 plt_besselK_2 <- function(x, nu) {
   
@@ -67,14 +96,19 @@ for (nu in N) {
 
 
 # try N with more constrast but less choices
+
+png(paste0(image.path, "Bessel_different_nu.png"), 
+    width = 8, height = 7, units = "in", res = 300)
+
+par(mfrow = c(2, 2), mar = c(3, 3, 3.5, 1), mgp = c(1.85, 1, 0),
+    cex = 1.1)
+
 N <- c(0.1, 1.5, 15, 50)
-
-par(mfrow = c(2, 2), mar = c(3, 3, 3.5, 1), mgp = c(1.95, 1, 0))
-
 for (nu in N) {
   plt_besselK_2(x, nu)
 }
 
+dev.off()
 
 
 #--------------
