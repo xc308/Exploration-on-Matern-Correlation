@@ -1,6 +1,6 @@
-# An Exploration of Matern Correlation Function
+# Matern Correlation: A Panoramic Primer
 
-This repository contains the code for the paper entitled "An Exploration of Matern Correlation Function". 
+This repository contains the code for the paper entitled "Matern Correlation: A Panoramic Primer". 
 
 
 ## Shiny app
